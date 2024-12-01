@@ -1,24 +1,28 @@
 [versions]
-agp = "8.8.0-alpha06"
+agp = "8.7.2"
+jetbrainsKotlinTest = "2.0.21"
+kotestAssertionsCore = "6.0.0.M1"
 kotlin = "2.0.21"
-coreKtx = "1.15.0"
+coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinxCoroutinesTest = "1.7.3"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.11.00"
+composeBom = "2024.04.01"
 mockk = "1.13.5"
 navigationRuntimeKtx = "2.8.4"
 navigationCompose = "2.8.4"
 roomVersion = "2.6.1"
 ksp = "2.0.21-1.0.27"
-lifecycleRuntimeComposeAndroid = "2.8.7"
-lifecycleLivedataKtx = "2.8.7"
-runtimeLivedata = "1.7.5"
+lifecycleRuntimeComposeAndroid = "2.8.3"
+lifecycleLivedataKtx = "2.8.4"
+runtimeLivedata = "1.6.8"
 hiltVersion = "2.51.1"
 hiltNavigationCompose = "1.2.0"
-cameraxVersion = "1.4.0"
+cameraxVersion = "1.3.0-rc01"
+turbine = "1.2.0"
 uiTestJunit4 = "1.7.5"
 uiTestManifest = "1.7.5"
 
@@ -40,7 +44,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestAssertionsCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+org-jetbrains-kotlin-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "jetbrainsKotlinTest" }
 room-runtime= { group = "androidx.room",name="room-runtime", version.ref = "roomVersion" }
 room-compiler= { group = "androidx.room",name="room-compiler", version.ref = "roomVersion" }
 room-testing = { group = "androidx.room",name="room-testing", version.ref = "roomVersion" }
@@ -58,6 +65,7 @@ androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", 
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraxVersion" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraxVersion" }
 androidx-camera-extensions = { group = "androidx.camera", name = "camera-extensions", version.ref = "cameraxVersion" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
 

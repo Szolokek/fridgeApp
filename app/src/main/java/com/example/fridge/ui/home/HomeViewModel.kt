@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.fridge.data.FridgeItem
 import com.example.fridge.data.FridgeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +29,7 @@ class HomeViewModel @Inject constructor(itemsRepository: FridgeRepository) : Vie
 
     private val searchQuery = MutableStateFlow("")
 
-    val homeUiState: StateFlow<HomeUiState> =
+    val homeUiState: Flow<HomeUiState> =
         combine(
             itemsRepository.getAllItems(),
             searchQuery
@@ -39,11 +40,7 @@ class HomeViewModel @Inject constructor(itemsRepository: FridgeRepository) : Vie
                 items.filter { it.name.contains(query, ignoreCase = true) }
             }
             HomeUiState(filteredItems)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-            initialValue = HomeUiState()
-        )
+        }
 
     fun updateSearchQuery(query: String) {
         searchQuery.value = query

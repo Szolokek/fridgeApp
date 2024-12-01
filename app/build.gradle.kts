@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +8,8 @@ plugins {
     id("androidx.room")
     kotlin("kapt") version "1.9.0"
     id("com.google.dagger.hilt.android")
+    id("dev.mokkery") version  "2.5.1"
+    id("org.jetbrains.kotlinx.kover") version "0.9.0-RC"
 
 }
 
@@ -48,8 +52,19 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-    packagingOptions {
-        exclude("META-INF/LICENSE-notice.md")
+
+
+    kover {
+        // Optional: Configure additional settings for Kover, such as filters
+        reports {
+            filters{
+                includes {
+                    classes("com.example.fridge.ui.camera.*",)
+                    classes("com.example.fridge.ui.item.*",)
+                    classes("com.example.fridge.ui.home.*",)
+                }
+            }
+        }
     }
 
 }
@@ -73,7 +88,7 @@ dependencies {
     ksp(libs.room.compiler)
     testImplementation(libs.room.testing)
     implementation(libs.androidx.runtime.livedata)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
@@ -88,6 +103,13 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.test.manifest)
     androidTestImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.org.jetbrains.kotlin.kotlin.test)
+
+
+
 }
 kapt {
     correctErrorTypes = true

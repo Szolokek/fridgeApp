@@ -59,7 +59,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val homeUiState by viewModel.homeUiState.collectAsState()
+    val homeUiState by viewModel.homeUiState.collectAsState(HomeUiState())
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
 

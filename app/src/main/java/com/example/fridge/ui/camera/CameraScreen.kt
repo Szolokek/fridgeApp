@@ -27,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -40,9 +42,31 @@ object CameraDestination : NavigationDestination {
 }
 
 @Composable
+fun CameraDialog(
+    onDismiss : () -> Unit,
+    pictureTake : (Bitmap) -> Unit,
+) {
+    Dialog(
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = {
+            onDismiss()
+        }
+    ) {
+        CameraScreen(
+            navigateBack = {},
+            onNavigateUp = {},
+            pictureTake = {
+                pictureTake(it)
+            }
+        )
+    }
+}
+
+@Composable
 fun CameraScreen(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
+    pictureTake: ((Bitmap) -> Unit)? = null,
     viewModel: SharedImageViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -76,7 +100,12 @@ fun CameraScreen(
                     onClick = {
                         takePhoto(
                             controller = controller,
-                            onPhotoTaken = viewModel::onTakePhoto,
+                            onPhotoTaken ={
+                                if (pictureTake != null) {
+                                    pictureTake(it)
+                                }
+                                viewModel.onTakePhoto(it)
+                            },
                             context = context
                         )
                     }

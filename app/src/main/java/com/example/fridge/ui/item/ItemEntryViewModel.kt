@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModel
 import com.example.fridge.data.FridgeItem
 import com.example.fridge.data.FridgeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -21,40 +24,43 @@ class ItemEntryViewModel @Inject constructor( private val fridgeRepository: Frid
     /**
      * Holds current item ui state
      */
-    var itemUiState by mutableStateOf(ItemUiState())
-        private set
+    private val _itemUiState = MutableStateFlow(ItemUiState())
+    val itemUiState : Flow<ItemUiState> = _itemUiState
+
+
     fun refreshData(){
-    updateUiState(itemUiState.itemDetails.copy(imageData = fridgeRepository.gteCapturedImage()))
+
+//    updateUiState(itemUiState.itemDetails.copy(imageData = fridgeRepository.gteCapturedImage()))
 }
     /**
      * Updates the [itemUiState] with the value provided in the argument. This method also triggers
      * a validation for input values.
      */
     fun updateUiState(itemDetails: ItemDetails) {
-        itemUiState =
+        _itemUiState.update {
             ItemUiState(itemDetails = itemDetails, isEntryValid = validateInput(itemDetails))
+        }
     }
 
-    private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
+    private fun validateInput(uiState: ItemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && name.isNotBlank() && name.isNotBlank()
         }
     }
 
     suspend fun saveItem() {
-        if (validateInput()) {
-            fridgeRepository.insert(itemUiState.itemDetails.toItem())
+        if (validateInput(_itemUiState.value.itemDetails)) {
+            fridgeRepository.insert(_itemUiState.value.itemDetails.toItem())
         }
         fridgeRepository.setCapturedImage(null)
     }
 
 
     fun onTakePhoto(bitmap: Bitmap) {
-        updateUiState(itemUiState.itemDetails.copy(imageData = bitmap))
-        Log.i("viewmodel", itemUiState.itemDetails.imageData.toString())
-        itemUiState.itemDetails.toItem().imageData?.let { Log.i("viewmodel", it) }
-
-
+        val itemDetails = _itemUiState.value.itemDetails.copy(imageData = bitmap)
+        _itemUiState.update {
+            _itemUiState.value.copy(itemDetails = itemDetails)
+        }
     }
 
 

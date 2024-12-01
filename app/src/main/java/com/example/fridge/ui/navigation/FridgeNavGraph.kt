@@ -39,7 +39,9 @@ fun FridgeNavHost(
         }
         composable(route = ItemEntryDestination.route) {
             ItemEntryScreen(
-                navigateToCamera = {navController.navigate(CameraDestination.route)},
+                navigateToCamera = {
+                    //navController.navigate(CameraDestination.route)
+                },
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() }
             )

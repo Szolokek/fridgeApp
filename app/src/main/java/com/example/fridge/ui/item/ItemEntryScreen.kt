@@ -19,7 +19,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -33,6 +38,7 @@ import com.example.fridge.ui.navigation.NavigationDestination
 import java.util.Currency
 import java.util.Locale
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fridge.ui.camera.CameraDialog
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
@@ -51,6 +57,19 @@ fun ItemEntryScreen(
     canNavigateBack: Boolean = true,
     viewModel: ItemEntryViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.itemUiState.collectAsState(ItemUiState())
+    var showCameraDialog by remember {
+        mutableStateOf(false)
+    }
+    if(showCameraDialog){
+        CameraDialog(onDismiss = {
+            showCameraDialog = false
+        }) {
+            println(it)
+            viewModel.onTakePhoto(it)
+            showCameraDialog = false
+        }
+    }
     LaunchedEffect(Unit){
         viewModel.refreshData()
     }
@@ -65,8 +84,10 @@ fun ItemEntryScreen(
         }
     ) { innerPadding ->
         ItemEntryBody(
-            navigateToCamera = navigateToCamera,
-            itemUiState = viewModel.itemUiState,
+            navigateToCamera = {
+                showCameraDialog = true
+            },
+            itemUiState = uiState,
             onItemValueChange = viewModel::updateUiState,
             onSaveClick = {
                 coroutineScope.launch {
