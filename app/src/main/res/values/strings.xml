@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Fridge</string>
+    <string name="back_button">Back</string>
+    <string name="item_entry_title">Add Item</string>
+    <string name="no_item_description">Currently there aren\'t any items in your fridge</string>
+    <string name="item_detail_title">Details</string>
+    <string name="edit_item_title">Edit</string>
+    <string name="sell">Sell\n</string>
+    <string name="delete">Delete</string>
+    <string name="item">Item</string>
+    <string name="attention">Attention</string>
+    <string name="delete_question">Are you sure you want to delete it?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="save_action">Save</string>
+    <string name="item_name_req">Name *</string>
+    <string name="required_fields">Required *</string>
+    <string name="camera_title">Camera</string>
+    <string name="no_image">No image</string>
+    <string name="image">Image</string>
+    <string name="name">Name</string>
+    <string name="take_photo">Take photo</string>
+</resources>
